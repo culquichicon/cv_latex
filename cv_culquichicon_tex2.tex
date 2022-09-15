@@ -1,0 +1,898 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% Simple LaTeX CV Template %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NOTE: If you find that it says                                     %%
+%%                                                                    %%
+%%                           1 of ??                                  %%
+%%                                                                    %%
+%% at the bottom of your first page, this means that the AUX file     %%
+%% was not available when you ran LaTeX on this source. Simply RERUN  %%
+%% LaTeX to get the ``??'' replaced with the number of the last page  %%
+%% of the document. The AUX file will be generated on the first run   %%
+%% of LaTeX and used on the second run to fill in all of the          %%
+%% references.                                                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't like 10pt? Try 11pt or 12pt
+\documentclass[10pt]{article}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+\usepackage{pifont}
+\usepackage{marvosym}
+%\usepackage{longtable}
+
+
+% Simpler bibsection for CV sections
+% (thanks to natbib for inspiration)
+\makeatletter
+\newlength{\bibhang}
+\setlength{\bibhang}{1em}
+\newlength{\bibsep}
+{\@listi \global\bibsep\itemsep \global\advance\bibsep by\parsep}
+\newenvironment{bibsection}%
+{\vspace{-\baselineskip}\begin{list}{}{%
+			\setlength{\leftmargin}{\bibhang}%
+			\setlength{\itemindent}{-\leftmargin}%
+			\setlength{\itemsep}{\bibsep}%
+			\setlength{\parsep}{\z@}%
+			\setlength{\partopsep}{0pt}%
+			\setlength{\topsep}{0pt}}}
+	{\end{list}\vspace{-.6\baselineskip}}
+\makeatother
+
+% Layout: Puts the section titles on left side of page
+\reversemarginpar
+
+%
+%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+%
+% The next \usepackage line changes the layout for CV style section
+% headings as marginal notes. It also sets up the paper size as either
+% letter or A4. By default, letter was used. If A4 paper is desired,
+% comment out the letterpaper lines and uncomment the a4paper lines.
+%
+% As you can see, the margin widths and section title widths can be
+% easily adjusted.
+%
+% ALSO: Notice that the includefoot option can be commented OUT in order
+% to put the PAGE NUMBER *IN* the bottom margin. This will make the
+% effective text area larger.
+%
+% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
+% see the note about the +LP and -LP lines below. Comment out the +LP
+% and uncomment the -LP.
+%
+% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
+% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
+% below.
+%
+
+%% Use these lines for letter-sized paper
+%\usepackage[paper=letterpaper,
+%           %includefoot, % Uncomment to put page number above margin
+%            marginparwidth=0.7in,     % Length of section titles
+%            marginparsep=.05in,       % Space between titles and text
+%            margin=0.5in,               % 1 inch margins
+%            includemp]{geometry}
+
+% Use these lines for A4-sized paper
+\usepackage[paper=a4paper,
+%includefoot, % Uncomment to put page number above margin
+marginparwidth=24mm,    % Length of section titles
+marginparsep=1mm,       % Space between titles and text
+margin=15mm,              % 25mm margins
+includemp]{geometry}
+
+%% More layout: Get rid of indenting throughout entire document
+\setlength{\parindent}{0in}
+
+%% This gives us fun enumeration environments. compactitem will be nice.
+\usepackage{paralist}
+\usepackage[shortlabels]{enumitem}
+\usepackage[misc]{ifsym}
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+%\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+{0.1\textwidth+0.1\marginparsep+0.1\marginparwidth-2in}
+\cfoot{\hspace{\footpageshift}%
+	\parbox{3.5in}{\, \hfill %
+		\arabic{page} of \protect\pageref*{LastPage} % +LP
+		%                    \arabic{page}                               % -LP
+		\hfill \,}}
+
+% Finally, give us PDF bookmarks
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+	linkcolor=darkblue,urlcolor=darkblue,
+	anchorcolor=darkblue,citecolor=darkblue}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The title (name) with a horizontal rule under it
+%
+% Usage: \makeheading{name}
+%
+% Place at top of document. It should be the first thing.
+\newcommand{\makeheading}[1]%
+{\hspace*{-\marginparsep minus \marginparwidth}%
+	\begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+		{\large \bfseries #1}\\[-0.15\baselineskip]%
+		\rule{\columnwidth}{1pt}%
+\end{minipage}}
+
+% The section headings
+%
+% Usage: \section{section name}
+%
+% Follow this section IMMEDIATELY with the first line of the section
+% text. Do not put whitespace in between. That is, do this:
+%
+%       \section{My Information}
+%       Here is my information.
+%
+% and NOT this:
+%
+%       \section{My Information}
+%
+%       Here is my information.
+%
+% Otherwise the top of the section header will not line up with the top
+% of the section. Of course, using a single comment character (%) on
+% empty lines allows for the function of the first example with the
+% readability of the second example.
+\renewcommand{\section}[2]%
+{\pagebreak[2]\vspace{1\baselineskip}%
+	\phantomsection\addcontentsline{toc}{section}{#1}%
+	\hspace{0in}%
+	\marginpar{
+		\raggedright \scshape #1}#2}
+
+% An itemize-style list with lots of space between items
+\newenvironment{outerlist}[1][\enskip\textbullet]%
+{\begin{itemize}[#1]}{\end{itemize}%
+	\vspace{-0.6\baselineskip}}
+
+% An environment IDENTICAL to outerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{lonelist}[1][\enskip\textbullet]%
+{\vspace{-\baselineskip}\begin{list}{#1}{%
+			\setlength{\partopsep}{0pt}%
+			\setlength{\topsep}{0pt}}}
+	{\end{list}\vspace{-.6\baselineskip}}
+
+% An itemize-style list with little space between items
+% \newenvironment{innerlist}[1][\enskip\textbullet]%
+\newenvironment{innerlist}[1][\enskip$\circ$]%
+{\begin{compactitem}[#1]}{\end{compactitem}}
+
+% An environment IDENTICAL to innerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{loneinnerlist}[1][\enskip\textbullet]%
+{\vspace{-\baselineskip}\begin{compactitem}[#1]}
+	{\end{compactitem}\vspace{-.6\baselineskip}}
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+\newcommand{\blankline}{\quad\pagebreak[2]}
+
+% Uses hyperref to link DOI
+\newcommand\doilink[1]{\href{http://dx.doi.org/#1}{#1}}
+\newcommand\doi[1]{doi:\doilink{#1}}
+\usepackage{hyperref}
+\usepackage{etaremune}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\hyphenpenalty = 9999
+\def\vs{\vspace{-0.1in}}
+\begin{document}
+	% \makeheading{Curriculum Vitae\\ [0.3cm] TIEP HUU VU\quad~~~~~~\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad{\small Last update: December 17, 2015}}
+	\makeheading{Carlos Culquichicon \hfill {\small Last update: \today}}
+	
+	
+\section{Contact Information} %(fold)
+	\newlength{\rcollength}\setlength{\rcollength}{3 in}
+	\vs
+	\begin{tabular}[t]{@{}p{\textwidth-\rcollength}p{\rcollength}}
+		
+		Av. Javier Prado Oeste 1694 & E-mail: \href{mailto:cculqui@uw.edu}{cculqui@uw.edu}\\ 
+		Lima 15073, Peru      & Website: \url{culquichicon.github.io}\\ 
+		Tel: +51 969212422      & 
+		
+	\end{tabular}
+	%% ==============================================================
+	\vspace{0.2in}
+
+
+\section{Background} % (fold)
+	\label{sec:research_backg}
+	\vspace{-0.25in}
+	
+	Current Epidemiology doctoral student at the University of Washington School of Public Health. Interested in causal inference methods applied on observational studies and randomized trials. Besides, applying causal inference methods on peer PrEP trials to prevent HIV infection in Kenya. \\
+
+\textbf{PART I: Education and career}
+\vspace{-0.1in}
+
+\section{Education}
+	\textit{PhD in Epidemiology} \hfill 2022-Present \\
+	Department of Epidemiology, Universiy of Washington, WA, USA.
+
+	\vspace{0.1in}
+	\textit{MSPH in Environmental Health and Epidemiology} \hfill 2022 \\
+	Rollins School of Public Health, Emory University, GA, USA.
+	
+	\vspace{0.1in}
+	\textit{MD Medical Doctor} \hfill 2017 \\
+	National University of Piura, Piura, Peru.
+	
+
+\section{Honors and Awards}
+	\vspace{-0.25in}
+
+	\begin{longtable}[t]{@{}p{0.5in}p{5.2in}}\textbf{}
+   	2022 &	Scholarship, {\bf 14th Summer Institute in Statistics and Modeling in Infectious Diseases (SISMID), University of Washington (UW)}, USA. (5R25GM089694). \\
+   	2021 &  Awardee, {\bf Virtual Conference Scholarship, Society for Epidemiological Research, USA.} \\
+	2021 &   Scholarship, {\bf 13th SISMID - UW}, USA. (5R25GM089694). \\
+	2020 &  Fellow, “William H. Foege” Global Health Fellowship endowed by the Bill \& Melinda Gates Foundation, US (OPP19761). {\bf Full-tuition scholarship for MSPH in EH-EPI at Emory University.} \\
+	2020 &  Awardee, Rollins Earn and Learn (REAL) Program. Rollins School of Public Health. Emory University. \\
+	2020 &  Presidential scholarship, Peruvian National Scholarship and Educational Program (PRONABEC) (RJ1705-2020). {\bf Living expenses scholarship for MSPH in EH-EPI at Emory University.} \\
+	2020 &  Scholarship, {\bf 12th SISMID - UW USA.} (5R25GM089694). \\
+	2020 &  Scholarship, Pan Lab, Population, Health and Environmental Research at Duke University. Funded by the NASA project “Malaria Early Warning System for the Amazon”, USA. (NNX15AP74G). \\
+	2019 &  Scholarship, International scholarships program, XX Summer School of Public Health at Universidad de Chile, Chile. \\
+	2019 &  Top manuscript, Call for Criminological Phenomenon research. Peruvian Ministry of Justice and Human Rights. \\
+	2019 &  Scholarship, Pan Lab, Population, Health and Environmental Research at Duke University. Funded by CONCYTEC (E009-054-2019). \\
+	2019 &  Scholarship, XIX Summer School of Public Health at Universidad de Chile, Regional Geohealth- Hub, Fogarty International Center, National Institutes of Health (NIH), USA. (U2RTW010114). \\
+	2018 &  Fellowship, Global Health Leadership Academy, University of Texas Medical Branch, Galveston, Texas, USA. (PHS6097-304037). \\
+	2018 &  Scholarship, III Geohealth-Hub centered in Peru, Fogarty International Center, National Institutes of Health (NIH), USA. (U2RTW010114). \\
+	2017 &  Outstanding Scientific Records, National University of Piura (216-D-2017-MH/UNP).
+
+	\end{longtable}
+	\vspace{-0.55in}
+
+
+\section{Professional experience}
+\vspace{-0.1in}
+\begin{longtable}[t]{@{}p{0.5in}p{5.2in}}
+	2022--Present &    Research assistant, Public Health Sciences Division, Fred Hutchinson Center, Seattle, USA. \\
+	2020--22 &    Research assistant, Prokopec Lab, Emory University, Atlanta, USA. \\
+	2019--20 &    Research associate, Division of Epidemiology, Institute for Health Technology Assessment and Research (IETSI), Social Health Security, Lima, Peru. \\
+	2019    &    Research  associate, Division of Epidemiology, Peruvian National Institutes of Health, Lima, Peru. \\
+	2018--20 &    Research associate, School of Health Sciences, National University of Piura, Piura, Peru. \\
+	2016--20 &    Research assistant, Emerge, Emerging Diseases and Climate Change Research Unit, Cayetano Heredia University, Lima, Peru. \\
+	2018	&	Epidemiologist, Division of Epidemiology, Peruvian Air Force Unit N° 7, Piura, Peru.
+\end{longtable}
+\vspace{-0.35in}
+
+\section{Clinical practice}
+\vspace{-0.2in}
+\begin{longtable}[t]{@{}p{0.6in}p{5.2in}}
+	2017-18 & Physician, Peruvian Air Force Unit N° 7, Piura, Peru.
+\end{longtable}
+\vspace{-0.2in}
+
+\section{Affiliated positions}
+\vspace{-0.1in}
+\begin{longtable}[t]{@{}p{0.5in}p{5.2in}}
+	2020-- &    Affiliated investigator, Emerge, Emerging Diseases and Climate Change Research Unit, Cayetano Heredia University, Lima, Peru. \\
+	2020-- &    Affiliated investigator, School of Health Sciences, National University of Piura, Piura, Peru. \\
+	2015--19 &     Affiliated investigator, Public Health and Infection Lab, Universidad Tecnológica de Pereira, Colombia. \\
+	2016  &   Trainee, Scientia Clinical and Epidemiological Research Institute, Trujillo, Peru.
+\end{longtable}
+\vspace{-0.35in}
+	
+
+\section{Career development}
+	\vspace{-0.2in}
+	\begin{longtable}[t]{@{}p{0.5in}p{5.2in}}
+	2020 & {\bf Research scholar, Duke Global Health Institute, Duke University, NC, U.S}. Funded by the NASA project “Malaria Early Warning System for the Amazon”, USA. (NNX15AP74G) \\
+	2019 & {\bf Research scholar, Duke Global Health Institute, Duke University, NC, USA.} Funded by CONCYTEC Peru (E009-054-2019). \\
+	2018 & Fellow, Global Health Leadership Academy, University of Texas Medical Branch, TX, USA. \\
+	2016-20 & {\bf Research fellow, Peru Infectious Diseases Epidemiology Research Training Consortium} (D43TW007393 NIH-Fogarty International Center), Cayetano Heredia University, Peru. \\
+	2015 &  Visiting scholar in Fungal Immunology, Universidade Católica de Brasília, Brazil.
+	
+	\end{longtable}
+	\vspace{-0.5in}
+
+\section{Certifications}
+	\vspace{-0.18in}
+	\begin{longtable}[t]{@{}p{0.5in}p{5.2in}}
+	2019-- &		RENACYT scientist, Peruvian Council of Science, Technology, and Innovation (CONCYTEC) (ID: P0034512) \\
+	2017-- &		Medical doctor, Peruvian Medical Association (ID: 78955)
+	\end{longtable}
+	\vspace{-0.35in}
+
+
+
+
+
+
+
+
+
+\section{Languages}
+	\vspace{-0.2in}
+	\begin{longtable}[t]{@{}p{0.6in}p{5.2in}}
+	Spanish:	& Fluent, native speaker. \\
+	English:	& Fluent, TOEFL IBT 91/120. \\
+	Portuguese:	& Fair.
+	\end{longtable}
+	\vspace{-0.35in}
+
+\section{Computational Skills} % (fold)
+	\vspace{0.05in} \\
+	Statistics and programming softwares: R Studio, Stata, Mata programming, and SAS. \\
+	\begin{innerlist}
+	\vspace{-0.15in}
+	\item[] Multilevel analysis: \url{github.com/culquichicon/2016-Peruvian-Prison-Census} \\
+
+	\vspace{-0.15in}
+	\item[] Nested models: \url{github.com/culquichicon/Flu-vaccination-coverage} \\
+
+	\vspace{-0.15in}
+	\item[] Longitudinal analysis: \url{github.com/culquichicon/El-Nino-amendment} \\
+
+	\vspace{-0.15in}
+	\item[] Latent class analysis: \url{github.com/culquichicon/kap-biostats}
+	\end{innerlist}
+	Data management: REDCap, Open Data Kit, Survey Monkey. \\
+	Geographic information systems: ArcGIS, QGIS, R. \\
+	Technical Softwares: \LaTeX{}, Rmarkdown, Git.
+	
+%	\begin{longtable}[t]{@{}p{2in}p{5.2in}}
+%	Statistical softwares: & R Studio, Stata.\\
+%	Programming Languages: & R, Mata. \\
+%	Data management: & REDCap, Open Data Kit, Survey Monkey. \\
+%	Geographic information systems: & ArcGIS, QGIS, R. \\
+%	Technical Softwares: & \LaTeX{}, Rmarkdown, Git.
+%	\end{longtable}
+	\vspace{-0.1in}
+
+
+
+\section{Memberships}
+	\vspace{-0.2in}
+
+	\begin{longtable}[t]{@{}p{0.6in}p{5.2in}}
+	2020- &		Member, Society for Epidemiological Research (SER) \\
+	2017-20 &	Member, American Society of Tropical Medicine and Hygiene (ASTMH). \\
+	2017-19	&	Member, European Society of Clinical Microbiology and Infectious Diseases (ESCMID). \\
+	2017-19	&	Member, International Epidemiological Association (IEA).
+	\end{longtable}
+
+
+\textbf{PART II: Publications}
+\vspace{-0.12in}
+
+\section{Published}
+\vspace{-0.15in}
+
+\begin{etaremune}
+	\vspace{-0.15in}
+	
+	\item Local Burden of Disease HIV Collaborators. Subnational mapping of HIV incidence and mortality among individuals aged 15–49 years in sub-Saharan Africa, 2000–18: a modeling study. The Lancet HIV. 2021;8(6):e363-e75. doi: 10.1016/S2352-3018(21)00051-5. \emph{\textbf{Culquichicon C} listed as a group-author. } \\
+	\vspace{-0.23in}
+	
+	\item Local Burden of Disease Diarrhoea Collaborators. Mapping geographical inequalities in oral rehydration therapy coverage in low-income and middle-income countries, 2000-17. The Lancet Glob Health. 2020;8(8):e1038-e1060. doi: 10.1016/S2214-109X(20)30230-8. \emph{\textbf{Culquichicon C} listed as a group-author. } \\
+	\vspace{-0.23in}
+	
+	\item Araujo-Castillo RV, {\bf Culquichicon C}, Solis Condor R. Burden of disease due to hip, knee, and unspecified osteoarthritis in the Peruvian Social Health Security system (EsSalud), 2016. F1000Res. 2020;9:238. doi: 10.12688/f1000research.22767.2. \\
+	\vspace{-0.23in}
+	
+	\item {\bf Culquichicon C}, Ramos-Cedano E, Helguero-Santin LM, Niño-Garcia R, Rodríguez-Morales AJ. Research trends in Carrion’s disease in the last 60 years: A bibliometric assessment of Latin American scientific production. Infez Med. 2018. Infez Med. 2018; 26(1):28-36. \\
+	\vspace{-0.23in}
+	
+	\item Yepes-Echeverri MC, Acevedo-Mendoza WF, Marín-Rincón H, {\bf Culquichicon C}, Cardona-Ospina JA, Rodríguez-Morales AJ. Mapping the residual incidence of taeniasis and cysticercosis in Colombia, 2009–2013, using geographical information systems: Implications in public health and travel medicine. Travel Med Infect Dis. 2018;22:51-7. doi: 10.1016/j.tmaid.2017.12.006 \\
+	\vspace{-0.23in}
+	
+	\item Ortega-Loubon C, {\bf Culquichicon C}, Correa R. The Importance of Writing and Publishing Case Reports During Medical Training. Cureus. 2017; 9(12): e. doi:10.7759/cureus. \\
+	\vspace{-0.23in}
+	
+	\item {\bf Culquichicon C}, Helguero-Santin LM, Labán-Seminario LM, Cardona-Ospina JA, Aboshady O, Correa R. Massive open online courses in health sciences from Latin American institutions: A need for improvement?. F1000Research. 2017; 6:940. doi: 10.12688/f1000research.11626.1 \\
+	\vspace{-0.23in}
+	
+	\item {\bf Culquichicon C}, Hernández-Pacherres A, Labán-Seminario M, Cardona-Ospina JA, Rodríguez-Morales AJ. Where we are after 60 years of Paragonimus research? A bibliometric assessment. Infez Med. 2017; 25(2):142-149. \\
+	\vspace{-0.23in}
+	
+	\item Rodriguez-Morales AJ, {\bf Culquichicon C}. The need for enhancing the message: Screening for Zika, STORCH, and other agents and co-infections should be considered and assessed. Am J Reprod Immunol.e12688-n/a. doi: 10.1111/aji.12688 \\
+	\vspace{-0.23in}
+	
+	\item {\bf Culquichicon C}, Cardona-Ospina JA, Patiño-Barbosa AM and Rodriguez-Morales AJ. Bibliometric analysis of Oropouche research: impact on the surveillance of emerging arboviruses in Latin America. F1000Research. 2017, 6:194. doi: 10.5256/f1000research.10936.d152949 \\
+	\vspace{-0.23in}
+	
+	\item Rodríguez-Morales AJ, {\bf Culquichicon-Sanchez C}, Gil-Restrepo AF. Baja producción científica de decanos en facultades de medicina y salud de Colombia:¿una realidad común en Latinoamérica? Salud Publica Mex.2016;58:402-3. doi: 10.21149/spm.v58i4.7809 \\
+	\vspace{-0.23in}
+	
+	\item {\bf Culquichicon-Sanchez C}, Ramos-Cedano E. Becas de iniciación científica: un modelo integral de desarrollo en investigación para Latinoamérica. Rev Med Chil. 2016;144:683-4. doi: 10.4067/S0034-98872016000500022 \\
+	\vspace{-0.23in}
+	
+	\item {\bf Culquichicon-Sanchez C}, Correa R, Flores-Guevara I, Espinoza Morales F, Mejia CR. Immune Thrombocytopenic Purpura and Gastritis by H. pylori Associated With Type 1 Diabetes Mellitus. Cureus. 2016;8(2):e512. doi: 10.7759/cureus.512 \\
+	\vspace{-0.23in}
+	
+	\item {\bf Culquichicon-Sanchez C}, Ramos-Cedano E, Chumbes-Aguirre D, Araujo-Chumacero M, Díaz Vélez C, Rodríguez-Morales AJ. Tecnologías de la Información y la Comunicación (TICs) en la vigilancia, prevención y control del dengue. Rev Chilena Infectol. 2015;32:363-4. doi: 10.4067/S0716-10182015000400019
+\end{etaremune}
+\vspace{-0.2in}
+
+\section{Pre-prints}
+\vspace{-0.2in}
+\begin{etaremune}
+	\item Soto-Becerra P, {\bf Culquichicon C}, Hurtado-Roca Y, Araujo-Castillo RV. Real-world effectiveness of hydroxychloroquine, azithromycin, and ivermectin among hospitalized COVID-19 patients: results of a target trial emulation using observational data from a nationwide healthcare system in Peru. medRxiv; doi: 10.1101/2020.10.06.20208066
+\end{etaremune}
+\vspace{-0.2in}
+
+
+\section{Under review}
+\vspace{-0.2in}
+\begin{etaremune}
+	\item Ayora-Talavera G, Kirstein OD, Puerta-Guardo H, Barrera-Fuentes G, Ortegon-Abud D, Che-Mendoza A, Parra M, {\bf Culquichicon C}, Pavia-Ruz N, Beheshti A, Trovão NS, Granja-Pérez P, Manrique-Saide P, Vazquez-Prokopec GM, Earnest JT. Prevalence of SARS-CoV-2 exposure in a pediatric cohort of unvaccinated children in Merida, Yucatán, México. The Lancet Global Health. 2021
+	\vspace{-0.05in}
+	
+	\item {\bf Culquichicon C}, Astudillo-Rueda D, Niño R, Martinez R, Merino-Tsui N, Levy K, Lescano AG. Post-traumatic stress disorder, food insecurity and social capital among mothers after the 2017 Coastal El Niño flooding in Piura, Peru: a mixed method study. Disaster Medicine and Public Health Preparedness. 2021.
+	\vspace{-0.05in}
+	
+	\item {\bf Culquichicon C}, Zapata-Castro L, Soto-Becerra P, Konda KA, Silva-Santisteban A, Lescano AG. Self-reported HIV in Peruvian inmates: results of the 2016 prison census. PLoS. 2021.
+	\vspace{-0.05in}
+	
+	\item Delahoy MJ, Hubbard S, Mattioli M, {\bf Culquichicon C}, Knee J, Brown J, Cabrera L, Barr DB, Ryan PB, Lescano AG, Gilman RH, Levy K. Chemical and microbiological drinking water risks for infants in coastal Peru. American Journal of Tropical Medicine and Hygiene. 2021.
+	\vspace{-0.05in}
+	
+	\item Valladares-Garrido M, Araujo-Chumacero M, Cordova-Augurto J, {\bf Culquichicon C}. Associated factors with scientific publication during medical training: evidence from 40 medical schools surveyed in Latin America and the Caribbean. F1000R. 2021.
+	
+\end{etaremune}	
+\vspace{-0.20in}
+
+
+
+\section{Conference presentations/abstracts}
+\vspace{-0.20in}
+
+\begin{etaremune}
+	\item {\bf Culquichicon C}, Lescano AG. Post-traumatic stress disorder, food insecurity and social capital among mothers after the 2017 Coastal El Niño floods in Piura, Peru: a mixed method assessment. 2019-20 Seminar series of the Center for Global Safe WASH. Emory University; Atlanta, US. 2019. \\
+	\vspace{-0.23in}
+	
+	\item {\bf Culquichicon C}, Lescano AG. Impacts on nutritional status of infants before, during, and after the 2017 El Niño events. Peruvian National Academy of Science. El Niño scientific meeting; Piura, Peru, 2018. (Oral presentation) \\
+	\vspace{-0.23in}
+	
+	\item Lescano AG, {\bf Culquichicon C}. Post-traumatic stress disorder, food insecurity and social capital among mothers after the 2017 Coastal El Niño floods in Piura, Peru: a mixed method assessment. Peruvian National Academy of Science. El Niño scientific meeting; Piura, Peru, 2018. (Oral presentation) \\
+	\vspace{-0.23in}
+	
+	\item Delahoy MJ, Mattioli M, Knee J, Altherr F, Hodge R, Jaramillo-Ramírez MR, Zevallos-Concha A, D’Souza PE, Panuwet P, {\bf Culquichicon C}, Cabrera L, Barr DB, Ryan PB, Lescano AG, Brown J, Gilman RH, Levy K. Chemical and Microbiological Contamination of Drinking Water in Peruvian Households with Infants. American Society of Tropical Medicine and Hygiene 67th Annual Meeting; New Orleans, US. 2018. (Poster presentation) \\
+	\vspace{-0.23in}
+	
+	\item Vasquez-Mejia A, Arica-Gutierrez JA, Pozo EJ, Villegas-Tirado S, Melendez-Maron M, \newline {\bf Culquichicon  C}, Lescano AG. Constant spatial patterns of high density Aedes aegypti eggs and their correlation with surrounding roofed area obtained from satellite images. American Society of Tropical Medicine and Hygiene 67th Annual Meeting; New Orleans, US. 2018. (Poster presentation) \\
+	\vspace{-0.23in}
+	
+	\item Soto-Becerra P, Pezo A, {\bf Culquichicon C}, Rusu C, Saona-Ugarte P. Caregivers´ barriers about Zika risks communication to fertile women and pregnant in Piura-Peru, 2017. 10th TEPHINET Regional Scientific Conference of the Americas. Cartagena, Colombia, May15-18, 2018. (oral presentation) \\
+	\vspace{-0.23in}
+	
+	\item Cardona-Ospina JA, Martinez-Pulgarin DF, {\bf Culquichicon C}, Rodriguez-Morales AJ. Role of tetracycline in dengue immunomodulation a systematic and meta-analysis of clinical trials on IL-6 and TNF. 18th International Congress of Infectious Diseases. Buenos Aires, Argentina, March 1-5, 2018. (Poster presentation) \\
+	\vspace{-0.23in}
+	
+	\item {\bf Culquichicon C}, Soto-Becerra P, Konda KA, Carcamo CC, Lescano AG. Self-reported tuberculosis, sexually transmitted diseases and HIV prevalence rates among Peruvian inmates: results from the 2016 prison census. IEA 21st World Congress of Epidemiology. Saitama, Japan, August 19-22, 2017. (Oral Presentation) \\
+	\vspace{-0.23in}
+	
+	\item Cardona-Ospina JA, Martínez-Pulgarín DF, {\bf Culquichicon C}, Rodríguez-Morales AJ. Tetracycline and doxicycline treatment for arboviruses infection: A systematic review and metanalysis. International Meeting on Emerging Diseases and Surveillance. Vienna, Austria, November 4-7, 2016. (Poster Presentation) \\
+	\vspace{-0.23in}
+	
+	\item {\bf Culquichicon C}, Cardona-Ospina J, Patiño-Barbosa A, Rodriguez-Morales A. Bibliometric analysis of Oropouche research: impact on the surveillance of emerging arboviruses in Latin America. IV Latin American Congress of Travel Medicine (SLAMVI). Buenos Aires, Argentina, October 6-7, 2016. (Oral Presentation) \\
+	\vspace{-0.23in}
+	
+	\item {\bf Culquichicon C}, Cardona-Ospina J, Patiño-Barbosa A, Rodriguez-Morales A. Bibliometric analysis of Oropouche research: impact on the surveillance of emerging arboviruses in Latin America. XI Encuentro Nacional de Investigación en Enfermedades Infecciosas de la ACIN. Medellín, Colombia, Noviembre 17-19, 2016. (Poster Presentation)	
+	
+	
+\end{etaremune}
+
+
+
+
+\textbf{PART III: Research experience}
+\section{Current research}
+\vspace{-0.25in}
+
+\begin{outerlist}
+%	\item[] {\it Entomological impact of targeted indoor residual spraying on Aedes aegypti age structure and abundance} \\
+%	Master thesis supervisor: Dr. Gonzalo Vazquez-Prokopec \\
+	\item[] \textbf{\emph{Entomological impact of targeted indoor residual spraying on Aedes aegypti age structure and abundance}} \\
+	Thesis advisors: Drs. Gonzalo Vazquez-Prokopec and Ashley Naimi. \\
+	\vspace{-0.20in}
+	\begin{innerlist}
+	\item[] 	Design: designed an ecological, and active surveillance study, grant writing of awarded proposal, protocol design and implementation.\\
+				Methods and analysis: formal analysis of multilevel modeling with mixed effects for ordered outcomes. \\
+				Implementation: conducted ovariole dissections using the Polovodova method for age grading of mosquito populations.
+	\end{innerlist}
+	
+\end{outerlist}
+
+
+\vspace{-0.10in}
+\begin{outerlist}
+	\item[] {\it Prevalence of SARS-CoV-2 exposure in a pediatric cohort of unvaccinated children in Merida, Yucatán, México} \\
+	Investigators: Kirsten OD, {\bf Culquichicon C}, Earnest JT, Vazquez-Prokopec GM \\
+	
+	\vspace{-0.20in}
+	\begin{innerlist}
+		\item[] 	Methods and analysis: formal analysis of multilevel modeling with mixed effects for categorical outcomes. \\
+	\end{innerlist}
+	
+\end{outerlist}
+
+\vspace{-0.25in}
+\section{Completed research} 
+\vspace{-0.25in}
+
+
+\begin{outerlist}
+%	\item[] {\it Urban factors associated with high-constant Aedes aegypti density using remote sensing image classification} \hfill {\it 2019--21}\\
+	\item[] \textbf{\emph{Urban factors associated with high-constant Aedes aegypti density using remote sensing image classification}} \hfill {\it 2019--21}\\
+	Funded by: Call for research grants 2019, ULADECH – Universidad Católica Los Ángeles de Chimbote, Peru.
+	\\
+	Investigators: Lescano AG, {\bf Culquichicon C}, Pan W. \\
+	Total Budget: USD \$60,000  \hfill Role: Co-investigator.
+	
+%	\vspace{-0.20in}
+	\begin{innerlist}
+		\item [] 	Design: designed an adult prospective cohort study to evaluate arboviral diseases incidence while integrating urban ecological measures with entomological indexes, grant writing of awarded proposal, protocol design and implementation.\\
+					Methods and analysis: conducted baseline analysis and remote sensing tools implementation including unsupervised classification of impervious surfaces of neighborhoods in Piura.\\
+					Implementation: supervise enrollment of participants, and human and entomological baseline evaluations.
+	\end{innerlist}
+\end{outerlist}
+
+
+%\newpage
+\vspace{-0.10in}
+\begin{outerlist}
+%	\item[] {\it Real-world effectiveness of hydroxychloroquine, azithromycin, and ivermectin among hospitalized COVID-19 patients: results of a target trial emulation using observational data from a nationwide healthcare system in Peru } \hfill {\it 2021}\\
+	\item[] \textbf{\emph{Real-world effectiveness of hydroxychloroquine, azithromycin, and ivermectin among hospitalized COVID-19 patients: results of a target trial emulation using observational data from a nationwide healthcare system in Peru}}  \hfill {\it 2020}\\
+	Investigators: Soto P, {\bf Culquichicon C}, Hurtado Y, Araujo RV \\ 
+	\vspace{-0.20in}
+	
+	\begin{innerlist}
+		\item[] 	Design: designed a retrospective cohort study using electronic clinical records, protocol design and implementation. \\
+					Methods and analysis: {\bf co-conducted the formal analysis using propensity score matching and doubly robust estimates for causal survival effects following Hernan's protocol for a target trial emulation.}\\
+	\end{innerlist}
+	
+\end{outerlist}
+
+
+\vspace{-0.25in}
+\begin{outerlist}
+	\item[] {\it Persistent post-traumatic stress disorder and resilience on people affected by the 2017 Coastal El Niño in Piura and Lima, Peru} \hfill {\it 2019--20}\\
+	Funded by: GloCal fellowship, Global Health Institute -- University of California.\\
+	Investigators: Valladares-Garrido M, {\bf Culquichicon C}, Grelotti D, Lescano AG. \\
+	Total Budget: USD \$15,000 \hfill Role: Co-investigator.\\
+	Skills learned:
+	\begin{innerlist}
+		\item[] 	Design: designed a longitudinal population survey protocol, grant writing of awarded proposal, and protocol write-up. \\
+					Methods and analysis: conducted formal analysis for multilevel modeling of static exposure using mixed effects models. \\
+	\end{innerlist}
+	
+	
+\end{outerlist}
+
+\vspace{-0.25in}
+\begin{outerlist}
+	\item[] {\it Melioidosis surveillance and laboratorial capacity building in Peru} \hfill {\it 2019--20}\\
+	Funded by: Department of special pathogens, CDC - Centers for Disease Control and Prevention, USA.
+	\\
+	Investigators: Lescano AG, {\bf Culquichicon C}, Gavilán RG. \\
+	Total Budget: USD \$25,000 (PO3122) \hfill Role: Co-investigator.
+%	\vspace{-0.05in}
+	\begin{innerlist}
+		\item[] 	Design: designed an ecological, and active surveillance study, grant writing of awarded proposal, protocol design and implementation.\\
+					Methods and analysis: modeling of categorical outcomes in cross-sectional studies.\\
+					Implementation: supervise field operations of veterinarian and health teams.
+	\end{innerlist}
+	
+\end{outerlist}
+
+
+\vspace{-0.10in}
+\begin{outerlist}
+	\item[] {\it Mental health disorders among front-line health personnel during COVID-19 emergency response in Piura and Lambayeque, 2020} \hfill {\it 2020}\\
+	Funded by: Call for COVID-19 emergency research, IETSI – Instituto de Evaluación de Tecnologías Sanitarias e Investigación. \\
+	Investigators: Diaz C, Sanchez-Reto M, Valladares-Garrido MJ, {\bf Culquichicon C}, Grelotti D. \\
+	Total Budget: USD \$12,000  \hfill Role: Co-investigator.
+	
+	\begin{innerlist}
+		\item[] 	Design: designed a longitudinal study, grant writing of awarded proposal, and protocol design. \\
+					Methods and analysis: conducted an interim longitudinal analysis of a time static exposure using multilevel mixed effect models.\\
+
+	\end{innerlist}
+	
+\end{outerlist}
+
+
+
+\vspace{-0.25in}
+\begin{outerlist}
+%	\item[] {\it Arboviral diseases seroprevalence among pregnants during El Niño events in Piura: a nested case control into El Niño cohort study} \hfill {\it 2017}\\
+	\item[] \textbf{\emph{Arboviral diseases seroprevalence among pregnants during El Niño events in Piura: a nested case control into El Niño cohort study}}  \hfill {\it 2017}\\
+	Funded by: Fogarty International Center, Global Infectious Diseases.
+	Peru Infectious Diseases Epidemiology Research Training Consortium. \\
+	Investigators: {\bf Culquichicon C}, Zapata-Castro LE, Neyra K, Lescano AG.  \\
+	Total Budget: USD \$5,000  \hfill Role: Investigator.
+	
+	\begin{innerlist}
+		\item[] 	Design: designed a nested case control within El Niño cohort study and protocol implementation. \\
+					Methods and analysis: longitudinal modeling of categorical outcomes with static exposure. \\
+					Implementation: enrolled pregnant women into El Niño cohort study, collected blood samples, and surveyed for baseline evaluations.
+	\end{innerlist}
+	
+\end{outerlist}
+
+\vspace{-0.10in}
+\begin{outerlist}
+	\item[] {\it Post-traumatic stress disorder, food insecurity, and social capital after the 2017 coastal El Niño flooding among mothers from Piura, Peru: a mixed method study} \hfill {\it 2017}\\
+	Funded by: Fogarty International Center, Global Infectious Diseases.
+	Peru Infectious Diseases Epidemiology Research Training Consortium. \\
+	Investigators: {\bf Culquichicon C}, Gilman RH, Levy K, Lescano AG.  \\
+	Total Budget: USD \$5,000  \hfill Role: Investigator.
+	
+	\begin{innerlist}
+		\item[] 	Design: designed a panel study and protocol implementation. \\
+					Methods and analysis: clustered analysis of continuous and categorical outcomes with bootstraping. \\
+					Implementation: conducted and supervised field operations for 3 years of the cohort study.
+	\end{innerlist}
+	
+\end{outerlist}
+
+
+
+
+\vspace{-0.05in}
+\begin{outerlist}
+	\item[] {\it Before, during and after El Niño Phenomenon: an infant cohort study in northern Peru addressing impact on nutritional status} \hfill {\it 2015--20}\\
+	Funded by: Fogarty International Center, Global Infectious Diseases.
+	Peru Infectious Diseases Epidemiology Research Training Consortium. \\
+	Investigators: Gilman R, Lescano A, Miranda JJ, Gonzales R. \\
+	Total Budget: USD \$32,000  \hfill Role: Fellow and coordinator of Piura field operations.
+	
+	\begin{innerlist}
+		\item[] 	Design: writing of amendments to the original protocol and their implementation. \\
+					Methods and analysis: longitudinal modeling of continuous and categorial outcomes with static exposure.\\
+					Implementation: conducted and supervised field operations for 3 years of the cohort study.
+	\end{innerlist}
+	
+\end{outerlist}
+
+\vspace{-0.10in}
+\begin{outerlist}
+%	\item[] {\it Research training and outbreak assessment among primary-care physicians to improve Zika surveillance in two Peruvian endemic areas} \hfill {\it 2017} \\
+	\item[] \textbf{\emph{Research training and outbreak assessment among primary-care physicians to improve Zika surveillance in two Peruvian endemic areas}}  \hfill {\it 2017}\\
+	Funded by: Zika Preparedness and Response Field Epidemiology Projects, Training Programs in Epidemiology and Public Health Interventions Network (TEPHINET). \\
+	Investigators: Maguiña JL, Munayco C, {\bf Culquichicon C}, Lescano AG. \\
+	Total Budget: USD \$10,000  \hfill Role: Co-investigator.
+	
+	\begin{innerlist}
+	\item[] 	Implementation: delivered a module of epidemiological research concepts .
+	\end{innerlist}
+
+\end{outerlist}
+
+\vspace{-0.10in}
+\begin{outerlist}
+	\item[] {\it Enhancing guidelines and educational tools for health caregivers during the age of Zika} \hfill {\it 2017} \\
+	Funded by: Zika Preparedness and Response Field Epidemiology Projects, Training Programs in Epidemiology and Public Health Interventions Network (TEPHINET). \\
+	Investigators: Soto-Becerra P, Rusu C, {\bf Culquichicón C}, Lescano AG. \\
+	Total Budget: USD \$10,000  \hfill Role: Co-investigator.
+	
+	\begin{innerlist}
+	\item[] 	Implementation: surveyed primary care health personnel and conducted in-depth interviews.
+	\end{innerlist}
+\end{outerlist}
+
+\vspace{-0.10in}
+\begin{outerlist}
+	\item[] {\it Post-traumatic stress disorder, infectious diseases and social capital level on farmworkers affected by the Hurricane Florence: a cross-sectional study in the Robeson County, North Carolina} \hfill {\it 2018} \\
+	Funded by: Hurricane Florence -- A Special Call for Quick Response Grant Proposals, Natural Hazards Center, University of Colorado Boulder. \\
+	Investigators: Arcury T, Sanders J, {\bf Culquichicon C}, Mora D, Flores EC, Ferradas C, Lescano AG. \\
+	Total Budget: USD \$5,000  \hfill Role: Co-investigator.
+	
+	\begin{innerlist}
+	\item[] 	Design:  designed a cross-sectional population-based study, writing of awarded proposal, protocol design.\\
+				Methods and analysis: conducted formal modeling of continuous, and categorical with interaction assessment.\\
+	\end{innerlist}
+
+\end{outerlist}
+
+\vspace{-0.30in}
+\section{Consulting}
+\vspace{-0.2in}
+	\begin{longtable}[t]{@{}p{0.6in}p{5.2in}}
+	2018 & \bf {Case report of the current dengue surveillance system in Peru. Merck \& Co.} \\
+	2018 & Internal validity and sensitivity analysis of the Peruvian Nutrition Surveillance System, Peruvian National Institute of Health. \\
+	2018 & Epidemiological surveillance on public health course. Peruvian Ministry of Health. \\
+	2018 & Evaluation and monitoring of health interventions course. Peruvian Ministry of Health. \\
+	2017-18 & {\bf Systematic review on multi-sectoral approaches for prevention and control of vector-borne  diseases.} Pan American Health Organization in Peru.
+
+	\end{longtable}
+\vspace{-0.2in}
+
+\newpage
+
+\vspace{-0.35in}
+\section{Service}
+\vspace{-0.15in}
+\begin{longtable}[t]{@{}p{0.5in}p{5.2in}}
+	2020 & Member of review board, Kaelin Prize for Epidemiological Research, Peruvian Social Health Security, Peru. \\
+	2017-20 &    Member of advisory board, Scientific Society of Medical Students at UNP (SOCIEM-UNP).\\
+	2017  &    Member of organization board, VII Latin American Conference of American Society of Tropical Medicine and Hygiene. \\
+	2016  &    Member of Institutional Review Board, Santa Rosa General Hospital, Piura, Peru.
+\end{longtable}
+\vspace{-0.35in}
+
+\section{Short courses \\ and \\ workshops}
+\vspace{-0.1in}
+\begin{longtable}[t]{@{}p{0.5in}p{5.2in}}
+	2021 & {\bf E-values, Unmeasured Confounding, Measurement Error, and Selection Bias}. Society for Epidemiological Research (SER), USA. \\
+	2021 & {\bf Introduction to parametric and semi-parametric estimators for causal inference}. SER, USA. \\
+	2021 & {\bf Causal Mediation: Modern Methods for Path Analysis}. SER, USA. \\
+	2021 & {\bf Causal inference for multiple time-point (longitudinal) exposures}. SER, USA. \\
+	2021 & {\bf An introduction to directed acyclic graphs}. SER, USA. \\
+	2021 & {\bf Confounding control for estimating causal effects}. SER, USA. \\
+	2021 & {\bf Causal inference module}, Summer Institute in Statistics and Modeling in Infectious Diseases (SISMID), University of Washington (UW), USA. \\
+	2021 & Spatial Statistics in Epidemiology, SISMID-UW, USA. \\
+	2020 & Statistics and Modeling with Novel Data Streams, SISMID-UW, USA. \\
+	2020 & Infectious Diseases, Immunology and Within-Host Models, SISMID-UW, USA. \\
+	2020 & Simulation-based Inference for Epidemiological Dynamics, SISMID-UW, USA. \\
+	2020 & Time series analysis for biomedical outcomes using R, Summer School of Public Health, Universidad de Chile, Chile. \\
+	2020 & Introduction to Bayesian analysis with health outcomes, Summer School of Public Health, Universidad de Chile, Chile. \\
+	2019 & {\bf Statistical analysis with missing data using multiple imputation}, University College London and Cayetano Heredia University, Peru.  \\
+	2019 & Introduction to machine learning applied in health sciences, XX Summer School of Public Health, Universidad de Chile, Chile.  \\
+	2019 & Clinical trials design, XX Summer School of Public Health, Universidad de Chile, Chile. \\
+	2019 & {\bf Impact evaluation with quasi-experimental designs}, XX Summer School of Public Health, Universidad de Chile, Chile. \\
+	2019 & {\bf Introduction to Causal Inference}, XX Summer School of Public Health, Universidad de Chile, Chile.  \\
+	2018 & {\bf An introduction to causal inference}, Universidad San Ignacio de Loyola, Peru. \\
+	2018 & Global Burden of Disease, University of Washington and Cayetano Heredia University, Peru. \\
+	2018 & {\bf Audited the Master's in Epidemiology, Cayetano Heredia University}. \\
+	2017 & Network Meta-analysis and indirect comparisons workshop, Cochrane Network and Center of Excellence CIGES, Chile. \\
+	2017 &  XII Field Epidemiology Course, Cayetano Heredia University, Peru. \\
+	2017 &  International Course on Outbreak Investigation, Cayetano Heredia University. \\
+	
+\end{longtable}
+\vspace{-0.15in}
+
+
+
+
+\textbf{PART IV: Teaching and editorial experience}
+\section{Teaching}
+\vspace{-0.2in}
+	\begin{longtable}[t]{@{}p{0.6in}p{5.2in}}
+	2022 &  Teaching assistant, {\bf EPI 504D “Fundamentals of Epidemiology”, Emory University, USA.} \\
+	2021 &  Teaching assistant, {\bf EPI 536 “Applied data analysis”, Emory University, USA.} \\
+	2021 &  Teaching assistant, {\bf EH 593R “Data analysis in environmental health”, Emory University, USA.} \\
+	2018-19 &  Field instructor, Field Epidemiology course, Cayetano Heredia University, Peru. \\
+	2018-19 &  Teaching assistant, Epidemiological Applications course, Masters and Doctoral Program in Epidemiological Research, Cayetano Heredia University, Peru. \\
+	2017-18 &  Lecturer, Epidemiologic concepts course, School of Health Sciences, National University of Piura, Piura, Peru. \\
+	2016-17 &  Teaching assistant, Scientia Clinical and Epidemiological Research Institute Training Program.	
+	\end{longtable}
+\vspace{-0.35in}
+
+\newpage
+
+\section{Peer reviewer}
+\vspace{-0.1in}
+\begin{longtable}[t]{@{}p{1in}p{5.2in}}
+	Publons Profile: &		\url{https://publons.com/author/805745/carlos-culquichicon#profile}
+\end{longtable}
+
+\vspace{-0.15in}
+Journals: {\it Annals of Clinical Microbiology and Antimicrobials, Cureus, International Archives of Medicine,
+	Oncotarget, Revista de la Facultad de Medicina, Travel Medicine and Infectious Disease, 
+	Pan American Journal of Public Health, F1000Research, Journal of Medical Virology, 
+	Peruvian Journal of Experimental Medicine and Public Health, PeerJ.}
+
+
+\vspace{0.15in}
+
+%\newpage
+
+
+
+%\newpage
+
+\textbf{PART V: References}
+\vspace{-0.1in}
+
+\section{References}
+\vspace{-0.15in}
+
+\textit{Dr. Gonzalo Vazquez-Prokopec}
+	\begin{innerlist}
+		\item[] 
+		Associate professor \\
+		Department of Environmental Sciences \\
+		Emory University, USA.		\\
+		E-mail: \href{mailto:gmvazqu@emory.edu}{gmvazqu@emory.edu} \\
+		Tel: +1 (404) 727-4217
+	\end{innerlist}
+
+\vspace{0.05in}
+\textit{Dr. Karen Levy}
+\begin{innerlist}
+	\item[] Associate professor \\
+	Department of Environmental and Occupational Health Sciences \\
+	University of Washington, USA.		\\
+	E-mail: \href{mailto:klevyx@uw.edu}{klevyx@uw.edu} \\
+	Tel: +1 (206) 543-4341
+\end{innerlist}
+
+\vspace{0.05in}
+\textit{Dr. Andres G. Lescano}
+\begin{innerlist}
+	\item[] Associate professor \\
+	School of Public Health and Administration\\
+	Cayetano Heredia University, Peru.		\\
+	E-mail: \href{mailto:andres.lescano.g@upch.pe}{andres.lescano.g@upch.pe} \\
+	Tel: +51 947-619-799
+\end{innerlist}
+
+
+\vspace{0.05in}
+\textit{Dr. Kyle Steenland}
+\begin{innerlist}
+	\item[] Professor \\
+	Gangarosa Department of Environmental Health\\
+	Emory University, USA.		\\
+	E-mail: \href{mailto:nsteenl@emory.edu}{nsteenl@emory.edu} \\
+	Tel: +1 (404) 712-8277
+\end{innerlist}
+
+
+\vspace{0.05in}
+\textit{Dr. William Pan}
+\begin{innerlist}
+	\item[] Associate professor \\
+	Duke Global Health Institute \\
+	Duke University, USA.		\\
+	E-mail: \href{mailto:william.pan@duke.edu}{william.pan@duke.edu} \\
+	Tel: +1 (919) 684-4108
+\end{innerlist}
+
+\vspace{0.05in}
+\textit{Dr. Jay S. Kaufman}
+\begin{innerlist}
+	\item[] Professor \\
+	Department of Epidemiology, Biostatistics, and Occupational Health\\
+	McGill University, Canada.		\\
+	E-mail: \href{mailto:jay.kaufman@mcgill.ca}{jay.kaufman@mcgill.ca} \\
+	Tel: +1 (514) 398-7341
+\end{innerlist}
+
+
+	
+\end{document}
